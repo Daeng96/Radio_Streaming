@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="akbar.sukku.annashihah.view.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment"
+            app:enterAnim="@anim/page_schedule_anim" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsActivity"
+            app:destination="@id/settingsActivity"
+            />
+        <action
+            android:id="@+id/action_homeFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/scheduleFragment"
+        android:name="akbar.sukku.annashihah.view.ScheduleFragment"
+        android:label="fragment_schedule"
+        tools:layout="@layout/fragment_schedule" >
+        <action
+            android:id="@+id/action_scheduleFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/page_schedule_anim"/>
+    </fragment>
+    <activity
+        android:id="@+id/settingsActivity"
+        android:name="akbar.sukku.annashihah.view.SettingsActivity"
+        android:label="SettingsActivity"
+        app:enterAnim="@anim/page_schedule_anim"/>
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="akbar.sukku.annashihah.view.InfoFragment"
+        android:label="fragment_info"
+        tools:layout="@layout/fragment_info" >
+        <action
+            android:id="@+id/action_infoFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+
+</navigation>

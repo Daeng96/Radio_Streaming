@@ -1,0 +1,69 @@
+<resources>
+    <string name="app_name">An-Nashihah 88.2FM</string>
+    <string name="live_broadcast">Live</string>
+    <string name="chanel_1">Chanel 1</string>
+    <string name="chanel_2">Chanel 2</string>
+    <string name="background_desc">background_desc</string>
+
+    <!-- Preference Titles -->
+    <string name="prayer_times_title">Jadwal Shalat</string>
+    <string name="hijry_calendar_title">Kalendar Hijriyah</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+
+    <string name="settings">Setelan</string>
+    <string name="chose_calendar_type">Pilih Tipe Kalender</string>
+    <string name="type_key">type_calendar_key</string>
+
+    <string name="calendar_hijri">%1$d %2$s %3$d</string>
+    <string name="method_key">method-key</string>
+    <string name="permission_denied_explanation">Izin Lokasi di tolak</string>
+    <string name="no_geocoder_available">Geocoder tidak tersedia</string>
+    <string name="permission_rationale">Izin lokasi di perlukan untuk Mendapatkan titik Kordinat</string>
+    <string name="address_found">Lokasi ditemukan</string>
+    <string name="asar_methodKey" translatable="false">asarKeyMethod</string>
+    <string name="shafii_method" translatable="false">imam_shafii</string>
+    <string name="default_method_key">sihat_kemenag_indonesia</string>
+    <string name="keyFajr" translatable="false">seek-adjust-fajr</string>
+    <string name="keyThur" translatable="false">seek-adjust-thur</string>
+    <string name="keyAsr" translatable="false">seek-adjust-asr</string>
+    <string name="keyMaghrib" translatable="false">seek-adjust-maghrib</string>
+    <string name="keyIsya" translatable="false">seek-adjust-isya</string>
+    <string name="adjust_t_check" translatable="false">adjustKeyCheck</string>
+    <string name="dzuhr_name">Dzuhr</string>
+    <string name="asar_name">Asr</string>
+    <string name="maghrib_name" translatable="false">Magrib</string>
+    <string name="isya_name">Isha</string>
+    <string name="key_sunrise" translatable="false">keySyuruq</string>
+    <string name="fajar_name">Subuh</string>
+    <string name="sunrise">Terbit</string>
+    <string name="label_fajr">Subuh | %1$s</string>
+    <string name="label_sunrise">Terbit | %1$s</string>
+    <string name="label_dzuhr">Dzuhr | %1$s</string>
+    <string name="label_asr">Asar | %1$s</string>
+    <string name="label_maghrib">Maghrib | %1$s</string>
+    <string name="label_isya">Isya | %1$s</string>
+    <string name="logo_splash">Logo Splash</string>
+    <string name="set_location_title">Atur Lokasi</string>
+    <string name="info_app">Info</string>
+    <string name="schedule_title">Jadwal</string>
+    <string name="picture_desc">picture</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="chose_theme_type">Pilih Tema</string>
+    <string name="theme_key">my_theme</string>
+</resources>

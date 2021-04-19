@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "An-Nashihah 88.2FM"

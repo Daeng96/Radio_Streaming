@@ -1,0 +1,88 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        app:icon="@drawable/ic_calculate"
+        app:defaultValue="@string/default_method_key"
+        app:entries="@array/methods_value"
+        app:entryValues="@array/methods_values"
+        app:key="@string/method_key"
+        app:useSimpleSummaryProvider="true"
+        app:title="Metode Perhitungan" />
+
+    <ListPreference
+        android:icon="@drawable/ic_asr_method"
+        app:defaultValue="@string/shafii_method"
+        app:entries="@array/asar_method"
+        app:entryValues="@array/asar_methods"
+        app:key="@string/asar_methodKey"
+        app:title="Asar - Calculation Method "
+        app:useSimpleSummaryProvider="true" />
+
+    <PreferenceCategory
+        app:allowDividerAbove="false"
+        app:allowDividerBelow="true"
+        app:title="Adjust Time (Minute)">
+        <CheckBoxPreference
+            android:icon="@drawable/ic_check_adjust"
+            app:allowDividerAbove="true"
+            app:key="@string/adjust_t_check"
+            app:title="Adjust Time" />
+        <SeekBarPreference
+            android:icon="@drawable/ic_fajr_time"
+            android:max="30"
+            app:defaultValue="0"
+            app:dependency="@string/adjust_t_check"
+            app:key="@string/keyFajr"
+            app:min="-30"
+            app:showSeekBarValue="true"
+            app:title="@string/fajar_name" />
+
+        <SeekBarPreference
+            android:icon="@drawable/ic_fajr_time"
+            android:max="30"
+            app:defaultValue="0"
+            app:dependency="@string/adjust_t_check"
+            app:key="@string/key_sunrise"
+            app:min="-30"
+            app:showSeekBarValue="true"
+            app:title="@string/sunrise" />
+        <SeekBarPreference
+            android:icon="@drawable/ic_thur_time"
+            android:max="30"
+            app:defaultValue="0"
+            app:dependency="@string/adjust_t_check"
+            app:key="@string/keyThur"
+            app:min="-30"
+            app:showSeekBarValue="true"
+            app:title="@string/dzuhr_name" />
+        <SeekBarPreference
+            android:icon="@drawable/ic_asr_time"
+            android:max="30"
+            app:defaultValue="0"
+            app:dependency="@string/adjust_t_check"
+            app:key="@string/keyAsr"
+            app:min="-30"
+            app:showSeekBarValue="true"
+            app:title="@string/asar_name" />
+        <SeekBarPreference
+            android:icon="@drawable/ic_maghrib_time"
+            android:max="30"
+            app:defaultValue="0"
+            app:dependency="@string/adjust_t_check"
+            app:key="@string/keyMaghrib"
+            app:min="-30"
+            app:showSeekBarValue="true"
+            app:title="@string/maghrib_name" />
+        <SeekBarPreference
+            android:icon="@drawable/ic_isha_time"
+            android:max="30"
+            app:defaultValue="0"
+            app:dependency="@string/adjust_t_check"
+            app:key="@string/keyIsya"
+            app:min="-30"
+            app:showSeekBarValue="true"
+            app:title="@string/isya_name" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

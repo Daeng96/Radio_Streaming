@@ -1,0 +1,26 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:fragment="akbar.sukku.annashihah.view.SettingsActivity$PrayerTimesSetFragment"
+        app:icon="@drawable/ic_time"
+        app:key="prayer_times_header"
+        app:title="@string/prayer_times_title" />
+
+
+    <ListPreference
+        app:title="@string/chose_calendar_type"
+        app:key="@string/type_key"
+        app:icon="@drawable/ic_baseline_calendar_today_24"
+        app:defaultValue="islamic-civil"
+        app:entries="@array/calendar_type"
+        app:entryValues="@array/calendar_types" />
+
+    <ListPreference
+        app:title="@string/chose_theme_type"
+        app:key="@string/theme_key"
+        app:icon="@drawable/ic_theme"
+        app:defaultValue="system_theme"
+        app:entries="@array/theme_set"
+        app:entryValues="@array/theme_sets" />
+
+</PreferenceScreen>

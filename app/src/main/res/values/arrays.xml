@@ -1,0 +1,68 @@
+<resources>
+    <string-array name="methods_value">
+        <item>Ummul Qura</item>
+        <item>Egypt</item>
+        <item>Muslim League</item>
+        <item>Karachi</item>
+        <item>North America</item>
+        <item>Singapura</item>
+        <item>Kuwait</item>
+        <item>Qatar</item>
+        <item>Dubai</item>
+        <item>Moon Sighting Commite</item>
+        <item>SIHAT Kemenag Indonesia</item>
+        <item>None</item>
+    </string-array>
+
+    <string-array name="methods_values">
+        <item>ummul_qura</item>
+        <item>egypt</item>
+        <item>muslim_league</item>
+        <item>karachi</item>
+        <item>north_america</item>
+        <item>singapura</item>
+        <item>kuwait</item>
+        <item>qatar</item>
+        <item>dubai</item>
+        <item>moon_sighting_commite</item>
+        <item>sihat_kemenag_indonesia</item>
+        <item>none</item>
+    </string-array>
+
+    <string-array name="asar_method">
+        <item>Imam Shafii</item>
+        <item>Imam Hanafi</item>
+    </string-array>
+    <string-array name="asar_methods">
+        <item>imam_shafii</item>
+        <item>imam_hanafi</item>
+    </string-array>
+
+    <string-array name="calendar_type">
+        <item>Sipil</item>
+        <item>Global</item>
+        <item>Ummul Quro</item>
+        <item>Tabular Astronomy</item>
+    </string-array>
+
+    <string-array name="calendar_types">
+        <item>islamic-civil</item>
+        <item>islamic</item>
+        <item>islamic-umalqura</item>
+        <item>islamic-tabular</item>
+    </string-array>
+    <!-- Reply Preference -->
+    <string-array name="theme_set">
+        <item>Terang</item>
+        <item>Gelap</item>
+        <item>Berdasarkan Sistem</item>
+        <item>Berdasarkan Penghemat Baterai</item>
+    </string-array>
+
+    <string-array name="theme_sets">
+        <item>light_theme</item>
+        <item>dark_theme</item>
+        <item>system_theme</item>
+        <item>battery_theme</item>
+    </string-array>
+</resources>

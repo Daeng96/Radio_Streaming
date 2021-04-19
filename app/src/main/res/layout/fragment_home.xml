@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.HomeFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_app_bar"
+        app:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:menu="@menu/main_menu" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/logo_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:contentDescription="@string/picture_desc"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo_annashihah_app" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/background_desc"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_background_bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/floating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/chanel_1"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:typeface="serif"
+            app:icon="@drawable/ic_play"
+            app:iconTint="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/floatingChanel2"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/floatingChanel2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:maxHeight="42dp"
+            android:text="@string/chanel_2"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:typeface="serif"
+            app:icon="@drawable/ic_play"
+            app:iconTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/dateHijry"
+            style="?attr/textAppearanceHeadline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:typeface="serif"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="13 Sya'ban 1442" />
+
+        <TextView
+            android:id="@+id/dzuhr_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_label_pt"
+            android:textColor="@color/white"
+            android:typeface="serif"
+            app:layout_constraintBottom_toTopOf="@+id/asar_id"
+            app:layout_constraintEnd_toEndOf="@+id/asar_id"
+            app:layout_constraintStart_toStartOf="@+id/asar_id"
+            tools:text="TextView" />
+
+        <TextView
+            android:id="@+id/asar_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_label_pt"
+            android:textColor="@color/white"
+            android:typeface="serif"
+            app:layout_constraintBottom_toTopOf="@+id/maghrib_id"
+            app:layout_constraintEnd_toEndOf="@+id/maghrib_id"
+            app:layout_constraintStart_toStartOf="@+id/maghrib_id"
+            tools:text="TextView" />
+
+        <TextView
+            android:id="@+id/maghrib_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="64dp"
+            android:background="@drawable/bg_label_pt"
+            android:textColor="@color/white"
+            android:typeface="serif"
+            app:layout_constraintBottom_toTopOf="@+id/floating"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="TextView" />
+
+        <TextView
+            android:id="@+id/isya_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_label_pt"
+            android:textColor="@color/white"
+            android:typeface="serif"
+            app:layout_constraintEnd_toEndOf="@+id/maghrib_id"
+            app:layout_constraintStart_toStartOf="@+id/maghrib_id"
+            app:layout_constraintTop_toBottomOf="@+id/maghrib_id"
+            tools:text="TextView" />
+
+        <TextView
+            android:id="@+id/sunrise_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_label_pt"
+            android:textColor="@color/white"
+            android:typeface="serif"
+            app:layout_constraintBottom_toTopOf="@+id/dzuhr_id"
+            app:layout_constraintEnd_toEndOf="@+id/dzuhr_id"
+            app:layout_constraintStart_toStartOf="@+id/dzuhr_id"
+            tools:text="TextView" />
+
+        <TextView
+            android:id="@+id/fajr_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_label_pt"
+            android:textColor="@color/white"
+            android:typeface="serif"
+            app:layout_constraintBottom_toTopOf="@+id/sunrise_id"
+            app:layout_constraintEnd_toEndOf="@+id/sunrise_id"
+            app:layout_constraintStart_toStartOf="@+id/sunrise_id"
+            tools:text="TextView" />
+
+
+        <TextView
+            android:id="@+id/location_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="viewEnd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/logo_app"
+            app:layout_constraintTop_toBottomOf="@+id/dateHijry"
+            tools:text="Makassar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
