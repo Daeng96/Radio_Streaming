@@ -48,7 +48,7 @@ class ScheduleFragment : Fragment() {
 
     private fun init() {
         adapter = ScheduleAdapter(requireContext(), listSchedule)
-        adapterPro = MainProgramAdapter(requireContext())
+        adapterPro = MainProgramAdapter()
         recyclerView = binding.rvSchedule
         rvMainPro = binding.mainProgram
     }

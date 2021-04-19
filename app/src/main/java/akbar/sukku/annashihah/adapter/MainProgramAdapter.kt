@@ -1,27 +1,24 @@
 package akbar.sukku.annashihah.adapter
 
-import akbar.sukku.annashihah.R
+import akbar.sukku.annashihah.databinding.ItemMainProgramBinding
 import akbar.sukku.annashihah.schedule.MainProgram
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class MainProgramAdapter internal constructor(context: Context) : RecyclerView.Adapter<MainProgramAdapter.MainViewHolder>() {
+class MainProgramAdapter : RecyclerView.Adapter<MainProgramAdapter.MainViewHolder>() {
 
     private var mainProgram = emptyList<MainProgram>()
-    private val inflater: LayoutInflater = LayoutInflater.from(context)
 
-    class MainViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView = view.findViewById(R.id.iv_program)
-        val valueTimes: TextView = view.findViewById(R.id.time_card_id)
+    class MainViewHolder(binding: ItemMainProgramBinding) : RecyclerView.ViewHolder(binding.root) {
+        val image: ImageView = binding.ivProgram
+        val valueTimes: TextView = binding.timeCardId
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        val itemView = inflater.inflate(R.layout.item_main_program, parent, false)
+        val itemView = ItemMainProgramBinding.inflate(LayoutInflater.from(parent.context))
         return MainViewHolder(itemView)
     }
 
