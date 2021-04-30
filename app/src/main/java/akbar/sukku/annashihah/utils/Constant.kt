@@ -1,6 +1,7 @@
 package akbar.sukku.annashihah.utils
 
 object Constant {
+
     private const val PACKAGE_NAME = "akbar.sukku.annashihah"
     const val RECEIVER = "$PACKAGE_NAME.RECEIVER"
     const val RESULT_DATA_KEY = "$PACKAGE_NAME.RESULT_DATA_KEY"
@@ -22,4 +23,5 @@ object Constant {
     const val DUBAI = "dubai"
     const val MSC = "moon_sighting_commite"
     const val INDONESIA = "sihat_kemenag_indonesia"
+
 }

@@ -1,13 +1,12 @@
 package akbar.sukku.annashihah.utils
 
 import akbar.sukku.annashihah.media.MediaNotificationManager
+import akbar.sukku.annashihah.media.PlaybackStatus
 import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.media.AudioAttributes
-import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.AudioManager.OnAudioFocusChangeListener
 import android.net.wifi.WifiManager
@@ -21,24 +20,27 @@ import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import androidx.annotation.RequiresApi
-import com.daeng96.radioan_nashihah.player.PlaybackStatus
-import com.google.android.exoplayer2.ExoPlaybackException
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.NonNullApi
-import com.google.android.exoplayer2.util.Util
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.scopes.ServiceScoped
 import org.greenrobot.eventbus.EventBus
+import javax.inject.Inject
 
+@AndroidEntryPoint
 @Suppress("DEPRECATION")
-class RadioService : Service(), Player.EventListener, OnAudioFocusChangeListener{
+@ServiceScoped
+class RadioService : Service(), Player.EventListener, OnAudioFocusChangeListener {
+
+    @Inject
+    lateinit var simpleExoPlayer: SimpleExoPlayer
+
+    @Inject
+    lateinit var dataSourceFactory: DefaultDataSourceFactory
 
     private val iBinder: IBinder = LocalBinder()
-    private lateinit var exoPlayer: SimpleExoPlayer
     lateinit var mediaSession: MediaSessionCompat
     private var transportControls: MediaControllerCompat.TransportControls? = null
     private var onGoingCall = false
@@ -48,7 +50,7 @@ class RadioService : Service(), Player.EventListener, OnAudioFocusChangeListener
     private lateinit var notificationManager: MediaNotificationManager
     lateinit var status: String
     private lateinit var streamUrl: String
-    private lateinit var mFocusRequest: AudioFocusRequest
+    //  private lateinit var mFocusRequest: AudioFocusRequest
 
     inner class LocalBinder : Binder() {
         fun getService(): RadioService {
@@ -61,6 +63,7 @@ class RadioService : Service(), Player.EventListener, OnAudioFocusChangeListener
             pause()
         }
     }
+
     private val phoneStateListener: PhoneStateListener = object : PhoneStateListener() {
 
         override fun onCallStateChanged(state: Int, incomingNumber: String) {
@@ -77,6 +80,7 @@ class RadioService : Service(), Player.EventListener, OnAudioFocusChangeListener
             }
         }
     }
+
     private val mediasSessionCallback: MediaSessionCompat.Callback =
         object : MediaSessionCompat.Callback() {
             @RequiresApi(Build.VERSION_CODES.O)
@@ -107,7 +111,6 @@ class RadioService : Service(), Player.EventListener, OnAudioFocusChangeListener
         super.onCreate()
         val strAppName = "Player"
         val strLiveBroadcast = "Live"
-        streamUrl = ""
         onGoingCall = false
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
         notificationManager = MediaNotificationManager(this)
@@ -116,48 +119,23 @@ class RadioService : Service(), Player.EventListener, OnAudioFocusChangeListener
         mediaSession = MediaSessionCompat(this, javaClass.simpleName)
         transportControls = mediaSession.controller.transportControls
         mediaSession.isActive = true
+
         mediaSession.setMetadata(
-                MediaMetadataCompat.Builder()
-                        .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, "...")
-                        .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, strAppName)
-                        .putString(MediaMetadataCompat.METADATA_KEY_TITLE, strLiveBroadcast)
-                        .build()
+            MediaMetadataCompat.Builder()
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, "...")
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, strAppName)
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, strLiveBroadcast)
+                .build()
         )
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mFocusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN).run {
-                setAudioAttributes(AudioAttributes.Builder().run {
-                    setUsage(AudioAttributes.USAGE_MEDIA)
-                    setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    build()
-                })
-                setAcceptsDelayedFocusGain(true)
-                setOnAudioFocusChangeListener {
-                    when (it) {
-                        AudioManager.AUDIOFOCUS_GAIN -> {
-                            exoPlayer.volume = 0.8f
-                            resume()
-                        }
-                        AudioManager.AUDIOFOCUS_LOSS -> stop()
-                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> if (isPlaying) pause()
-                        AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> if (isPlaying) exoPlayer.volume =
-                                0.1f
-                    }
-                }
-                build()
-            }
-        }
         mediaSession.setCallback(mediasSessionCallback)
         telephonyManager = getSystemService(TELEPHONY_SERVICE) as TelephonyManager
         telephonyManager!!.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE)
 
-        val trackSelectionFactory = AdaptiveTrackSelection.Factory()
-        val trackSelector = DefaultTrackSelector(this, trackSelectionFactory)
-        exoPlayer = SimpleExoPlayer.Builder(this).setTrackSelector(trackSelector).build()
-        exoPlayer.addListener(this)
+        simpleExoPlayer.addListener(this)
         registerReceiver(
-                becomingNoisyReceiver,
-                IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
+            becomingNoisyReceiver,
+            IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
         )
         status = PlaybackStatus.IDLE
     }
@@ -166,15 +144,6 @@ class RadioService : Service(), Player.EventListener, OnAudioFocusChangeListener
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         val action = intent.action
         if (TextUtils.isEmpty(action)) return START_NOT_STICKY
-        val result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            audioManager.requestAudioFocus(mFocusRequest)
-        } else {
-            audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
-        }
-        if (result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            stop()
-            return START_NOT_STICKY
-        }
         when {
             action.equals(ACTION_PLAY, ignoreCase = true) -> {
                 transportControls!!.play()
@@ -199,11 +168,11 @@ class RadioService : Service(), Player.EventListener, OnAudioFocusChangeListener
 
     override fun onDestroy() {
         pause()
-        exoPlayer.release()
-        exoPlayer.removeListener(this)
+        simpleExoPlayer.release()
+        simpleExoPlayer.removeListener(this)
         if (telephonyManager != null) telephonyManager!!.listen(
-                phoneStateListener,
-                PhoneStateListener.LISTEN_NONE
+            phoneStateListener,
+            PhoneStateListener.LISTEN_NONE
         )
         notificationManager.cancelNotify()
         mediaSession.release()
@@ -232,24 +201,20 @@ class RadioService : Service(), Player.EventListener, OnAudioFocusChangeListener
 
 
     private fun play(streamUrl: String) {
-        this.streamUrl = streamUrl
+
         if (wifiLock != null && !wifiLock!!.isHeld) {
             wifiLock!!.acquire()
         }
 
-        val dataSourceFactory = DefaultDataSourceFactory(
-                this,
-                userAgent
-        )
         val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(
-                MediaItem.fromUri(
-                        streamUrl
-                )
+            MediaItem.fromUri(
+                streamUrl
+            )
         )
 
-        exoPlayer.setMediaSource(mediaSource)
-        exoPlayer.prepare()
-        exoPlayer.playWhenReady = true
+        simpleExoPlayer.setMediaSource(mediaSource)
+        simpleExoPlayer.prepare()
+        simpleExoPlayer.playWhenReady = true
     }
 
     fun resume() {
@@ -258,23 +223,15 @@ class RadioService : Service(), Player.EventListener, OnAudioFocusChangeListener
 
 
     fun pause() {
-        exoPlayer.playWhenReady = false
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            audioManager.abandonAudioFocusRequest(mFocusRequest)
-        } else{
-            audioManager.abandonAudioFocus(this)
-        }
+        simpleExoPlayer.playWhenReady = false
+        audioManager.abandonAudioFocus(this)
         wifiLockRelease()
     }
 
 
     fun stop() {
-        exoPlayer.stop()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            audioManager.abandonAudioFocusRequest(mFocusRequest)
-        } else{
-            audioManager.abandonAudioFocus(this)
-        }
+        simpleExoPlayer.stop()
+        audioManager.abandonAudioFocus(this)
         wifiLockRelease()
     }
 
@@ -303,8 +260,6 @@ class RadioService : Service(), Player.EventListener, OnAudioFocusChangeListener
         }
     }
 
-    private val userAgent: String
-        get() = Util.getUserAgent(this, javaClass.simpleName)
 
     companion object {
         const val ACTION_PLAY = "com.daeng96.radioan_nashihah.player.ACTION_PLAY"
@@ -313,9 +268,9 @@ class RadioService : Service(), Player.EventListener, OnAudioFocusChangeListener
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
-        when(focusChange){
-            AudioManager.AUDIOFOCUS_GAIN-> {
-                exoPlayer.volume = 0.8f
+        when (focusChange) {
+            AudioManager.AUDIOFOCUS_GAIN -> {
+                simpleExoPlayer.volume = 0.8f
                 resume()
             }
             AudioManager.AUDIOFOCUS_LOSS -> {
@@ -325,7 +280,7 @@ class RadioService : Service(), Player.EventListener, OnAudioFocusChangeListener
                 if (isPlaying) pause()
             }
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
-                if (isPlaying) exoPlayer.volume = 0.1f
+                if (isPlaying) simpleExoPlayer.volume = 0.1f
             }
         }
     }

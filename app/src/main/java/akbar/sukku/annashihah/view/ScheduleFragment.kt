@@ -15,8 +15,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ScheduleFragment : Fragment() {
     private var listSchedule = listOf<Any>()
     private lateinit var recyclerView: RecyclerView
@@ -39,16 +40,15 @@ class ScheduleFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated( view, savedInstanceState)
         init()
         prepare()
         prepareDataMainProgram()
     }
 
-
     private fun init() {
-        adapter = ScheduleAdapter(requireContext(), listSchedule)
+        adapter = ScheduleAdapter(requireContext() ,listSchedule)
         adapterPro = MainProgramAdapter()
         recyclerView = binding.rvSchedule
         rvMainPro = binding.mainProgram

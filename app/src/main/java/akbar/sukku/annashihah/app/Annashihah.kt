@@ -5,7 +5,9 @@ import akbar.sukku.annashihah.utils.ThemeHelper
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class Annashihah : Application() {
 
     override fun onCreate() {

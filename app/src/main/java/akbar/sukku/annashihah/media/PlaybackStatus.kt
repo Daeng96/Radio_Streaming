@@ -1,4 +1,4 @@
-package com.daeng96.radioan_nashihah.player
+package akbar.sukku.annashihah.media
 
 object PlaybackStatus {
     const val IDLE = "PlaybackStatus_IDLE"

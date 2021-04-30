@@ -11,7 +11,6 @@ import org.greenrobot.eventbus.EventBus
 
 class RadioManager(private val context: Context) {
 
-
     fun playOrPause(streamUrl: String) {
         service!!.playOrPause(streamUrl)
     }

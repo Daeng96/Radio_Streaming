@@ -3,6 +3,7 @@ package akbar.sukku.annashihah.view
 import akbar.sukku.annashihah.PrayerTimesNow
 import akbar.sukku.annashihah.R
 import akbar.sukku.annashihah.databinding.FragmentHomeBinding
+import akbar.sukku.annashihah.media.PlaybackStatus
 import akbar.sukku.annashihah.media.RadioManager
 import akbar.sukku.annashihah.utils.AdjustTimes
 import akbar.sukku.annashihah.utils.Constant
@@ -43,23 +44,20 @@ import com.batoulapps.adhan.CalculationParameters
 import com.batoulapps.adhan.Coordinates
 import com.batoulapps.adhan.PrayerTimes
 import com.batoulapps.adhan.data.DateComponents
-import com.daeng96.radioan_nashihah.player.PlaybackStatus
 import com.google.android.gms.location.*
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Named
 
-//        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-//            takePictureIntent.resolveActivity(packageManager)?.also {
-//                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-//            }
-//        }
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
-
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var radioManager: RadioManager
@@ -81,6 +79,14 @@ class HomeFragment : Fragment() {
     private var location: Location? = null
     private lateinit var locationCallback: LocationCallback
     private lateinit var toolbar: Toolbar
+
+    @Inject
+    @Named("chanel")
+    lateinit var streamUrl1 : String
+
+    @Inject
+    @Named("chanel2")
+    lateinit var streamUrl2 : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -203,11 +209,11 @@ class HomeFragment : Fragment() {
 
     private fun mainPlay() {
         floatingActionButton.setOnClickListener {
-            radioManager.playOrPause("http://radio.an-nashihah.com/live")
+            radioManager.playOrPause(streamUrl1)
             clickChanel = 1
         }
         floatingActionButtonChanel2.setOnClickListener {
-            radioManager.playOrPause("http://radio.an-nashihah.com/live2")
+            radioManager.playOrPause(streamUrl2)
             clickChanel = 2
         }
     }

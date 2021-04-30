@@ -1,6 +1,5 @@
 package akbar.sukku.annashihah.utils
 
-import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 
 class ThemeHelper {

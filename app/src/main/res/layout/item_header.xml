@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
-            name="day"
+            name="headerDay"
             type="String" />
     </data>
 
@@ -20,7 +21,7 @@
             android:layout_height="wrap_content"
             android:background="@color/bg_button"
             android:padding="10dp"
-            android:text="@{day}"
+            android:text="@{headerDay}"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

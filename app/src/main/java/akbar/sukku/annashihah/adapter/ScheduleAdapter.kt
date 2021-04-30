@@ -16,9 +16,9 @@ class ScheduleAdapter internal constructor(
         private val list: List<Any>,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    class HeaderViewHolder(private val binding: ItemHeaderBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bindHeader(text: String) {
-            binding.day = text
+    class HeaderViewHolder(private val mBinding: ItemHeaderBinding) : RecyclerView.ViewHolder(mBinding.root) {
+        fun bindHeader(day: String) {
+            mBinding.headerDay = day
         }
     }
 

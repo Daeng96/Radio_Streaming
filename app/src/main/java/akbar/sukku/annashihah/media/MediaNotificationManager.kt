@@ -15,18 +15,22 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.daeng96.radioan_nashihah.player.PlaybackStatus
 
 
 class MediaNotificationManager(private val service: RadioService) {
+
     private val strAppName: String
     private val strLiveBroadcast: String
     private val resources: Resources = service.resources
     private val notificationManager: NotificationManagerCompat
+
     fun startNotify(playbackStatus: String) {
         val largeIcon = BitmapFactory.decodeResource(resources, R.mipmap.ic_launcher)
         var icon: Int = R.drawable.ic_pause
+        val stopIntent = Intent(service, RadioService::class.java)
         val playbackAction = Intent(service, RadioService::class.java)
+
+
         playbackAction.action = RadioService.ACTION_PAUSE
         var action = PendingIntent.getService(service, 1, playbackAction, 0)
         if (playbackStatus == PlaybackStatus.PAUSED) {
@@ -34,7 +38,7 @@ class MediaNotificationManager(private val service: RadioService) {
             playbackAction.action = RadioService.ACTION_PLAY
             action = PendingIntent.getService(service, 2, playbackAction, 0)
         }
-        val stopIntent = Intent(service, RadioService::class.java)
+
         stopIntent.action = RadioService.ACTION_STOP
         val stopAction = PendingIntent.getService(service, 3, stopIntent, 0)
         val intent = Intent(service, MainActivity::class.java)
