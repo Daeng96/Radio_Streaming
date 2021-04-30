@@ -1,5 +1,6 @@
 package akbar.sukku.annashihah.view
 
+import akbar.sukku.annashihah.PrayerTimesNow
 import akbar.sukku.annashihah.R
 import akbar.sukku.annashihah.databinding.FragmentHomeBinding
 import akbar.sukku.annashihah.media.RadioManager
@@ -23,7 +24,9 @@ import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.Animation
 import android.widget.TextView
 import android.widget.Toast
@@ -49,6 +52,7 @@ import org.greenrobot.eventbus.Subscribe
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+
 //        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
 //            takePictureIntent.resolveActivity(packageManager)?.also {
 //                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
@@ -74,7 +78,7 @@ class HomeFragment : Fragment() {
     private lateinit var adjustTime: AdjustTimes
     private lateinit var coordinatePreference: CoordinatePreference
     private var clickChanel: Int = 0
-    private var location : Location ? = null
+    private var location: Location? = null
     private lateinit var locationCallback: LocationCallback
     private lateinit var toolbar: Toolbar
 
@@ -99,8 +103,8 @@ class HomeFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         toolbar = binding.mainToolbar
@@ -108,10 +112,10 @@ class HomeFragment : Fragment() {
         init()
         calendarHijri()
         rotateAnimation =
-            android.view.animation.AnimationUtils.loadAnimation(
-                requireContext(),
-                R.anim.rotate_anim
-            )
+                android.view.animation.AnimationUtils.loadAnimation(
+                        requireContext(),
+                        R.anim.rotate_anim
+                )
         return binding.root
     }
 
@@ -123,10 +127,10 @@ class HomeFragment : Fragment() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
         PreferenceManager.setDefaultValues(requireContext(), R.xml.header_preferences, true)
         myType =
-            sharedPreferences.getString(getString(R.string.type_key), "islamic-civil") as String
+                sharedPreferences.getString(getString(R.string.type_key), "islamic-civil") as String
         nameMethod = sharedPreferences.getString(
-            getString(R.string.method_key),
-            getString(R.string.default_method_key)
+                getString(R.string.method_key),
+                getString(R.string.default_method_key)
         ) as String
         parameters = setMethod(nameMethod).parameters
         adjustTime = AdjustTimes(requireContext(), sharedPreferences, parameters)
@@ -162,12 +166,12 @@ class HomeFragment : Fragment() {
                         requestPermissions()
                     } else {
                         AlertDialog.Builder(requireContext())
-                            .setMessage("Apakah Anda ingin memperbarui lokasi? (Koneksi jaringan mungkin diperlukan)")
-                            .setTitle("Perbarui Lokasi")
-                            .setCancelable(false)
-                            .setIcon(R.drawable.ic_location)
-                            .setNegativeButton("Batalkan", null)
-                            .setPositiveButton("Perbarui") { _, _ -> updateLoc() }.show()
+                                .setMessage("Apakah Anda ingin memperbarui lokasi? (Koneksi jaringan mungkin diperlukan)")
+                                .setTitle("Perbarui Lokasi")
+                                .setCancelable(false)
+                                .setIcon(R.drawable.ic_location)
+                                .setNegativeButton("Batalkan", null)
+                                .setPositiveButton("Perbarui") { _, _ -> updateLoc() }.show()
 
                     }
                     true
@@ -188,7 +192,7 @@ class HomeFragment : Fragment() {
 
     private fun init() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(
-            requireActivity()
+                requireActivity()
         )
         floatingActionButton = binding.floating
         floatingActionButtonChanel2 = binding.floatingChanel2
@@ -237,7 +241,7 @@ class HomeFragment : Fragment() {
     }
 
     @SuppressLint("MissingPermission")
-    private fun updateLoc(){
+    private fun updateLoc() {
         val geocodeL = Geocoder(requireContext(), Locale.getDefault())
         var addressL: List<Address> = emptyList()
         val locRec = LocationRequest.create().apply {
@@ -245,10 +249,10 @@ class HomeFragment : Fragment() {
             this.isWaitForAccurateLocation = true
             this.maxWaitTime = 5000
         }
-        locationCallback = object : LocationCallback(){
+        locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locRec ?: return
-                for (location in locationResult.locations){
+                for (location in locationResult.locations) {
                     if (location != null) addressL = geocodeL.getFromLocation(location.latitude, location.longitude, 1)
                     coordinatePreference.setCoordinate(CoordinateData(location!!.latitude, location.longitude))
                     val loc = addressL[0]
@@ -262,34 +266,33 @@ class HomeFragment : Fragment() {
     }
 
 
-
     private fun requestPermissions() {
         val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(
-            requireActivity(),
-            Manifest.permission.ACCESS_FINE_LOCATION
+                requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION
         )
         if (shouldProvideRationale) {
             Log.i("MainActivity", "Displaying permission rationale to provide additional context.")
             Snackbar.make(
-                requireActivity().findViewById(android.R.id.content),
-                R.string.permission_rationale,
-                Snackbar.LENGTH_INDEFINITE
+                    requireActivity().findViewById(android.R.id.content),
+                    R.string.permission_rationale,
+                    Snackbar.LENGTH_INDEFINITE
             )
-                .setAction(android.R.string.ok) {
-                    // Request permission
-                    ActivityCompat.requestPermissions(
-                        requireActivity(),
-                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                        34
-                    )
-                }
-                .show()
+                    .setAction(android.R.string.ok) {
+                        // Request permission
+                        ActivityCompat.requestPermissions(
+                                requireActivity(),
+                                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                                34
+                        )
+                    }
+                    .show()
 
         } else {
             ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                34
+                    requireActivity(),
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    34
             )
         }
 
@@ -297,17 +300,17 @@ class HomeFragment : Fragment() {
 
     private fun checkPermissions(): Boolean {
         val permissionState = ActivityCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
         )
         return permissionState == PackageManager.PERMISSION_GRANTED
     }
 
     @SuppressLint("MissingPermission")
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray,
+            requestCode: Int,
+            permissions: Array<String>,
+            grantResults: IntArray,
     ) {
         if (requestCode != 34) return
         when {
@@ -316,23 +319,23 @@ class HomeFragment : Fragment() {
             grantResults[0] == PackageManager.PERMISSION_GRANTED -> getAddress()
 
             else -> Snackbar.make(
-                requireActivity().findViewById(android.R.id.content),
-                R.string.permission_rationale,
-                Snackbar.LENGTH_INDEFINITE
+                    requireActivity().findViewById(android.R.id.content),
+                    R.string.permission_rationale,
+                    Snackbar.LENGTH_INDEFINITE
             )
-                .setAction(android.R.string.ok) {
-                    val intent = Intent().apply {
-                        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                        data = Uri.fromParts(
-                            "package",
-                            "akbar.sukku.annashihah",
-                            null
-                        )
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    .setAction(android.R.string.ok) {
+                        val intent = Intent().apply {
+                            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                            data = Uri.fromParts(
+                                    "package",
+                                    "akbar.sukku.annashihah",
+                                    null
+                            )
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        }
+                        startActivity(intent)
                     }
-                    startActivity(intent)
-                }
-                .show()
+                    .show()
         }
 
     }
@@ -347,18 +350,20 @@ class HomeFragment : Fragment() {
         val coordinate = Coordinates(mCoordinate.latitude, mCoordinate.longitude)
         adjustTime.getAdjustTimes()
         val prayerTimes = PrayerTimes(coordinate, dateComponent, parameters)
-        binding.fajrId.text = getString(R.string.label_fajr, formatter.format(prayerTimes.fajr))
-        binding.sunriseId.text =
-            getString(R.string.label_sunrise, formatter.format(prayerTimes.sunrise))
-        binding.dzuhrId.text = getString(R.string.label_dzuhr, formatter.format(prayerTimes.dhuhr))
-        binding.asarId.text = getString(R.string.label_asr, formatter.format(prayerTimes.asr))
-        binding.maghribId.text =
-            getString(R.string.label_maghrib, formatter.format(prayerTimes.maghrib))
-        binding.isyaId.text = getString(R.string.label_isya, formatter.format(prayerTimes.isha))
-        binding.locationId.text = coordinatePreference.getAddressName()
+
+        val prayerTimesNow = PrayerTimesNow(
+                getString(R.string.label_fajr, formatter.format(prayerTimes.fajr)),
+                getString(R.string.label_sunrise, formatter.format(prayerTimes.sunrise)),
+                getString(R.string.label_dzuhr, formatter.format(prayerTimes.dhuhr)),
+                getString(R.string.label_asr, formatter.format(prayerTimes.asr)),
+                getString(R.string.label_maghrib, formatter.format(prayerTimes.maghrib)),
+                getString(R.string.label_isya, formatter.format(prayerTimes.isha)),
+                coordinatePreference.getAddressName()
+        )
+        binding.prayertimes = prayerTimesNow
     }
 
-    private fun setMethod(key: String?): CalculationMethod {
+    private fun setMethod(key: String): CalculationMethod {
         return when (key) {
             Constant.EGYPT -> CalculationMethod.EGYPTIAN
             Constant.UMM_QURO -> CalculationMethod.UMM_AL_QURA
@@ -411,7 +416,7 @@ class HomeFragment : Fragment() {
 
             }
             PlaybackStatus.ERROR -> Toast.makeText(requireContext(), "Offline", Toast.LENGTH_LONG)
-                .show()
+                    .show()
         }
 
         if (status == PlaybackStatus.PLAYING) {
@@ -423,16 +428,16 @@ class HomeFragment : Fragment() {
         }
 
         floatingActionButton.icon =
-            (if (status == PlaybackStatus.PLAYING && clickChanel == 1) ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.ic_pause
-            ) else ContextCompat.getDrawable(requireContext(), R.drawable.ic_play))
+                (if (status == PlaybackStatus.PLAYING && clickChanel == 1) ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_pause
+                ) else ContextCompat.getDrawable(requireContext(), R.drawable.ic_play))
 
         floatingActionButtonChanel2.icon =
-            (if (status == PlaybackStatus.PLAYING && clickChanel == 2) ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.ic_pause
-            ) else ContextCompat.getDrawable(requireContext(), R.drawable.ic_play))
+                (if (status == PlaybackStatus.PLAYING && clickChanel == 2) ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_pause
+                ) else ContextCompat.getDrawable(requireContext(), R.drawable.ic_play))
     }
 
 

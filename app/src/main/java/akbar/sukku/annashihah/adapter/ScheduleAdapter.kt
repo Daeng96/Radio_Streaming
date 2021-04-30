@@ -16,27 +16,23 @@ class ScheduleAdapter internal constructor(
         private val list: List<Any>,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    class HeaderViewHolder(binding: ItemHeaderBinding) : RecyclerView.ViewHolder(binding.root) {
-        private val tvHeader = binding.tvHeader
+    class HeaderViewHolder(private val binding: ItemHeaderBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bindHeader(text: String) {
-            tvHeader.text = text
+            binding.day = text
         }
     }
 
-    class ScheduleItemHolder(binding: ItemScheduleBinding) : RecyclerView.ViewHolder(binding.root) {
-        private val tvTitle = binding.nameSchedule
-        private val tvTime = binding.timeSchedule
+    class ScheduleItemHolder(private val  binding: ItemScheduleBinding) : RecyclerView.ViewHolder(binding.root) {
         val tvContainer: View = binding.itemContainer
         fun bindSchedule(schedule: Schedule) {
-            tvTitle.text = schedule.name
-            tvTime.text = schedule.time
+            binding.schedule = schedule
         }
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val headerView = ItemHeaderBinding.inflate(LayoutInflater.from(parent.context))
-        val itemView = ItemScheduleBinding.inflate(LayoutInflater.from(parent.context))
+        val headerView = ItemHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemView = ItemScheduleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return when (viewType) {
             ITEM_HEADER -> HeaderViewHolder(headerView)
             ITEM_SCHEDULE -> ScheduleItemHolder(itemView)

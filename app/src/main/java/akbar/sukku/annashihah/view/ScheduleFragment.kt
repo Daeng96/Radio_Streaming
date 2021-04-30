@@ -24,6 +24,7 @@ class ScheduleFragment : Fragment() {
     private lateinit var adapterPro: MainProgramAdapter
     private lateinit var binding: FragmentScheduleBinding
     private lateinit var rvMainPro: RecyclerView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         listSchedule = schedule
@@ -102,7 +103,6 @@ class ScheduleFragment : Fragment() {
     }
 
     companion object {
-
         val schedule: List<Any>
             get() = mutableListOf(
                     "Senin",

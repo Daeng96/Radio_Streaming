@@ -18,7 +18,7 @@ class MainProgramAdapter : RecyclerView.Adapter<MainProgramAdapter.MainViewHolde
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        val itemView = ItemMainProgramBinding.inflate(LayoutInflater.from(parent.context))
+        val itemView = ItemMainProgramBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MainViewHolder(itemView)
     }
 
